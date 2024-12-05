@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_FILES 5
+#define FILENAME_LENGTH 50
+
+char directory[MAX_FILES][FILENAME_LENGTH]; // Array to hold file names
+int fileCount = 0;
+
+void add_file(char* filename) {
+    if (fileCount < MAX_FILES) {
+        strcpy(directory[fileCount], filename);
+        fileCount++;
+    } else {
+        printf("Directory is full!\n");
+    }
+}
+
+void list_files() {
+    printf("Files in Directory:\n");
+    for (int i = 0; i < fileCount; i++) {
+        printf("%s\n", directory[i]);
+    }
+}
+
+int main() {
+    add_file("file1.txt");
+    add_file("file2.txt");
+    add_file("file3.txt");
+    list_files();
+    return 0;
+}
