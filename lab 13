@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define SIZE 10
+int memory[SIZE] = {0}; // Initialize all blocks as free (0)
+
+void first_fit(int size) {
+    for(int i = 0; i < SIZE; i++) {
+        if(memory[i] == 0) {
+            memory[i] = size;
+            break;
+        }
+    }
+}
+
+void best_fit(int size) {
+    int min_size = SIZE + 1, index = -1;
+    for(int i = 0; i < SIZE; i++) {
+        if(memory[i] == 0 && min_size > size) {
+            min_size = size;
+            index = i;
+        }
+    }
+    if(index != -1) memory[index] = size;
+}
+
+void worst_fit(int size) {
+    int max_size = -1, index = -1;
+    for(int i = 0; i < SIZE; i++) {
+        if(memory[i] == 0 && max_size < size) {
+            max_size = size;
+            index = i;
+        }
+    }
+    if(index != -1) memory[index] = size;
+}
+
+void display() {
+    for(int i = 0; i < SIZE; i++) printf("%d ", memory[i]);
+    printf("\n");
+}
+
+int main() {
+    first_fit(3);
+    display();
+    best_fit(4);
+    display();
+    worst_fit(5);
+    display();
+    return 0;
+}
