@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Employee {
+    int id;
+    char name[50];
+    float salary;
+};
+
+int main() {
+    FILE *file;
+    struct Employee emp = {1, "John Doe", 5000.50};
+    
+    file = fopen("employee.dat", "w+b");  // Open file for binary read/write
+    if (!file) { perror("Error opening file"); return 1; }
+    
+    fseek(file, 0 * sizeof(struct Employee), SEEK_SET);  // Move to 0th employee
+    fwrite(&emp, sizeof(struct Employee), 1, file);  // Write employee data
+    
+    fseek(file, 0 * sizeof(struct Employee), SEEK_SET);  // Seek back to 0th employee
+    fread(&emp, sizeof(struct Employee), 1, file);  // Read employee data
+    
+    printf("ID: %d, Name: %s, Salary: %.2f\n", emp.id, emp.name, emp.salary);  // Print employee data
+    
+    fclose(file);  // Close the file
+    return 0;
+}
