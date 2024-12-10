@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <pthread.h>
+
+pthread_mutex_t lock;  // Mutex lock
+int counter = 0;
+
+void* increment(void* arg) {
+    pthread_mutex_lock(&lock);  // Lock the mutex
+    counter++;                   // Critical section
+    printf("Counter: %d\n", counter);
+    pthread_mutex_unlock(&lock); // Unlock the mutex
+    return NULL;
+}
+
+int main() {
+    pthread_t threads[5];
+    pthread_mutex_init(&lock, NULL);  // Initialize mutex
+    
+    for(int i = 0; i < 5; i++) 
+        pthread_create(&threads[i], NULL, increment, NULL);  // Create threads
+    
+    for(int i = 0; i < 5; i++) 
+        pthread_join(threads[i], NULL);  // Wait for threads
+    
+    pthread_mutex_destroy(&lock);  // Destroy mutex
+    return 0;
+}
